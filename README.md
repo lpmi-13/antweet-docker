@@ -21,7 +21,7 @@ ACCESS_TOKEN_SECRET=thisisthesupersecretaccesstoken
 
 You'll also need to ensure that Docker is installed on your
 machine, as well as Docker Compose.
-[This](https://docs.docker.com/compose/install/) has some
+[This site](https://docs.docker.com/compose/install/) has some
 instructions on how to do that. Just google if you get stuck.
 
 (Note: I decided to go with Docker Compose, mostly to enable
