@@ -1,0 +1,8 @@
+version: '3'
+services:
+  antweet:
+    image: leskis/antweet-backend
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"

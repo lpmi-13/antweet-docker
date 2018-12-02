@@ -1,0 +1,22 @@
+{
+  "name": "antweet-backend",
+  "version": "0.0.2",
+  "private": false,
+  "description": "a backend for the antweet application",
+  "author": "Adam Leskis",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
+    "twit": "^1.1.0"
+  },
+  "engine": {
+    "node": "8.13.0",
+    "npm": "6.4.1"
+  }
+}
