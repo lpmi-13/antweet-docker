@@ -3,7 +3,7 @@ FROM node:8.13.0-alpine
 WORKDIR /app
 
 COPY ./package.json /app
-RUN npm install
+RUN npm install --production
 COPY ./app.js /app
 
 RUN addgroup -S app && adduser -S -G app app
