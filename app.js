@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 //module dependencies
-var express = require('express'),
+const express = require('express'),
   bodyparser = require('body-parser'),
   helmet = require('helmet'),
   twit = require('twit'),
@@ -22,60 +22,67 @@ var TwitterAccess = new twit({
 });
 
 app.get('/', function(req, res) {
-
-  var processedInput = processUserInput(req.query);
+  // validations on input
+  const processedInput = processUserInput(req.query);
+  const twitter_response = [];
 
   function findTweets() {
     TwitterAccess.get(
       'search/tweets',
-      { q: ['the', 'a', 'an', processedInput.searchTerm, 'exclude:retweets'], count: processedInput.request_count },
+      {
+        q: ['the', 'a', 'an', processedInput.searchTerm, 'exclude:retweets'],
+        count: processedInput.request_count,
+      },
       function(err, data, response) {
-
-        var tweetResults = data.statuses.map(function(tweet) {
+        if (err) {
+          twitter_response = err;
+        }
+        twitter_response = data.statuses.map(function(tweet) {
           return tweet.text;
         });
 
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
         res.setHeader('Content-Type', 'application/json');
-        res.json({tweetResults: tweetResults});
-      }
+        res.json({ tweetResults: twitter_response });
+      },
     );
   }
   findTweets();
 });
 
 function processUserInput(userInput) {
-
   /* check for a search term in the query, and
   ** if there isn't one, then just substitute
-  ** 'awesome sauce'
+  ** 'awesome sauce'.
+  ** Also keep string to a reasonable length.
   */
-  var searchTerm = userInput.term || 'awesome sauce';
+  let searchTerm = userInput.term || 'awesome sauce';
   if (searchTerm.length > 50) {
-    searchTerm = searchTerm.substring(0,50);
-  };
+    searchTerm = searchTerm.substring(0, 50);
+  }
 
-  // default to 1 if no count sent with the query
-  var request_count = parseInt(userInput.count, 10) || 1;
+  // ask for 1 tweet by default if no count sent
+  let request_count = parseInt(userInput.count, 10) || 1;
 
-  // if the count isn't a number, default to 1
+  // ask for 1 tweet if the count is something wacky
   if (isNaN(request_count)) {
     request_count = 1;
   }
 
-  // limit requests to 100 results
+  // ask for 100 tweets at most
   if (request_count > 100) {
     request_count = 100;
-  };
+  }
 
-  var processedInput = {
-    searchTerm:searchTerm,
-    request_count: request_count,
+  const processedInput = {
+    searchTerm,
+    request_count,
   };
 
   return processedInput;
 }
 
-var port = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
 console.log('app listening at ' + port);
 app.listen(port);
