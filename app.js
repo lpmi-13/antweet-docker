@@ -24,7 +24,7 @@ var TwitterAccess = new twit({
 app.get('/', function(req, res) {
   // validations on input
   const processedInput = processUserInput(req.query);
-  const twitter_response = [];
+  let twitter_response = [];
 
   function findTweets() {
     TwitterAccess.get(
