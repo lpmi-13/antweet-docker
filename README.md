@@ -45,8 +45,8 @@ antweet_1  |
 antweet_1  | app listening at 3001
 ```
 
-to test it, either go to `localhost:3001/?term=docker` in your
-system browser, or `curl localhost:3001/?term=rocks`
+to test it, either go to `localhost:3001/?term=docker&count=5` in your
+system browser, or `curl localhost:3001/?term=rocks&count=5`
 
 the output is a simple JSON structure as follows:
 ```
